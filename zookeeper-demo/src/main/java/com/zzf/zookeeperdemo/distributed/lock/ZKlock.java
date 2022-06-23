@@ -20,7 +20,7 @@ public class ZKlock implements Lock {
     public void init() {
         if (zk.get() == null) {
             try {
-                zk.set(new ZooKeeper("106.15.50.100:2181", 5000, new Watcher() {
+                zk.set(new ZooKeeper("localhost:2181", 5000, new Watcher() {
                     @Override
                     public void process(WatchedEvent watchedEvent) {
                         // ..
@@ -80,7 +80,8 @@ public class ZKlock implements Lock {
                         }
                     }
                 });
-                System.out.println(Thread.currentThread().getName()+"阻塞...");
+
+                System.out.println(Thread.currentThread().getName()+"阻塞住...");
                 countDownLatch.await();
                 return true;
             }
@@ -96,7 +97,7 @@ public class ZKlock implements Lock {
     public void unlock() {
         try {
             zk.get().delete(CURRENT_NODE.get(), -1);
-            CURRENT_NODE = null;
+            CURRENT_NODE.set(null);
             zk.get().close();
         } catch (InterruptedException e) {
             e.printStackTrace();

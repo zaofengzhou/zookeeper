@@ -14,7 +14,7 @@ public class Main {
     }
 
 //    static Lock lock = new ReentrantLock();
-    static ZKlock1 lock = new ZKlock1();
+    static ZKlock lock = new ZKlock();
 
     static class UserThread implements Runnable {
 
